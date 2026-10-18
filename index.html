@@ -66,47 +66,60 @@
 <body class="h-full flex flex-col font-sans text-slate-100 bg-slate-950 overflow-hidden">
 
   <!-- TOP PROMO BANNER (CANDIDATE PITCH) -->
-  <header class="bg-gradient-to-r from-slate-900 via-slate-900 to-slate-950 border-b border-slate-800 px-4 py-2 flex flex-wrap justify-between items-center z-50 flex-shrink-0">
+  <header class="bg-gradient-to-r from-slate-900 via-slate-900 to-slate-950 border-b border-slate-800 px-3 sm:px-4 py-2 flex flex-wrap justify-between items-center gap-2 z-50 flex-shrink-0">
     <div class="flex items-center gap-2">
+      <!-- HAMBURGER BUTTON FOR MOBILE/TABLET -->
+      <button onclick="toggleSidebar()" class="lg:hidden p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 focus:outline-none" title="Abrir Menú">
+        <i data-lucide="menu" class="w-4 h-4"></i>
+      </button>
       <span class="bg-blue-600 text-white font-extrabold text-[10px] px-2 py-0.5 rounded uppercase tracking-wider shadow">DEMO EN VIVO</span>
       <span class="text-xs text-slate-200">
-        Muestra Interactiva de Herramientas & Métricas para el Puesto de <strong>Analista de Sistemas</strong>
+        Muestra Interactiva para <strong class="text-white">Analista de Sistemas</strong>
       </span>
-      <span class="hidden md:inline-block text-[11px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded border border-slate-700 font-mono">
+      <span class="hidden xl:inline-block text-[11px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded border border-slate-700 font-mono">
         Stack: Data Analytics · IoT Telemetry · REST APIs · Tailwind
       </span>
     </div>
-    <div class="flex items-center gap-3">
-      <div class="text-xs text-slate-300 hidden sm:block">
+    <div class="flex items-center gap-2 sm:gap-3 ml-auto">
+      <div class="text-xs text-slate-300 hidden md:block">
         Desarrollador: <strong class="text-white">Lucas Yoel Heredia</strong>
       </div>
-      <a href="https://wa.me/5493834788040?text=Hola%20Lucas,%20vimos%20tu%20demo%20de%20sistemas" target="_blank" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-3 py-1 rounded-md transition flex items-center gap-1.5 shadow">
-        <i data-lucide="message-circle" class="w-3.5 h-3.5"></i> WhatsApp (+54 9 3834 78-8040)
+      <a href="https://wa.me/5493834788040?text=Hola%20Lucas,%20vimos%20tu%20demo%20de%20sistemas" target="_blank" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-2.5 sm:px-3 py-1 rounded-md transition flex items-center gap-1.5 shadow">
+        <i data-lucide="message-circle" class="w-3.5 h-3.5"></i> <span class="hidden xs:inline">WhatsApp</span>
       </a>
       <a href="CV_Lucas_Heredia_Analista_de_Sistemas.pdf" download class="bg-slate-800 hover:bg-slate-700 border border-slate-600 text-slate-200 text-xs px-2.5 py-1 rounded-md transition flex items-center gap-1">
-        <i data-lucide="file-text" class="w-3.5 h-3.5"></i> Descargar CV
+        <i data-lucide="file-text" class="w-3.5 h-3.5"></i> <span class="hidden sm:inline">Descargar</span> CV
       </a>
     </div>
   </header>
 
   <!-- MAIN WRAPPER (SIDEBAR + CONTENT) -->
-  <div class="flex-1 flex overflow-hidden">
+  <div class="flex-1 flex overflow-hidden relative">
 
-    <!-- ==================== SIDEBAR LATERAL IZQUIERDO ==================== -->
-    <aside class="w-64 bg-slate-900 border-r border-slate-800 flex flex-col flex-shrink-0 z-40">
+    <!-- MOBILE BACKDROP OVERLAY -->
+    <div id="sidebarBackdrop" onclick="toggleSidebar()" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-40 hidden lg:hidden transition-opacity"></div>
+
+    <!-- ==================== SIDEBAR LATERAL IZQUIERDO (RESPONSIVE) ==================== -->
+    <aside id="mainSidebar" class="fixed inset-y-0 left-0 z-50 w-72 bg-slate-900 border-r border-slate-800 flex flex-col flex-shrink-0 transition-transform duration-300 ease-in-out -translate-x-full lg:translate-x-0 lg:static lg:w-64">
       
-      <!-- LOGO CORPORATIVO -->
-      <div class="p-4 border-b border-slate-800 flex items-center gap-3">
-        <div class="w-9 h-9 rounded-lg bg-blue-600 flex items-center justify-center font-black text-xl text-white shadow-md">
-          O
-        </div>
-        <div>
-          <div class="flex items-center gap-1.5">
-            <span class="font-extrabold text-base tracking-tight text-white">OPERATIONS</span>
-            <span class="text-[9px] bg-blue-500/20 text-blue-400 border border-blue-500/30 px-1 py-0.2 rounded font-bold">CORE</span>
+      <!-- LOGO CORPORATIVO + CLOSE BTN EN MOBILE -->
+      <div class="p-4 border-b border-slate-800 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-lg bg-blue-600 flex items-center justify-center font-black text-xl text-white shadow-md">
+            O
           </div>
-          <span class="text-[10px] text-slate-400">Sistema de Control & Telemetría v2.4</span>
+          <div>
+            <div class="flex items-center gap-1.5">
+              <span class="font-extrabold text-base tracking-tight text-white">OPERATIONS</span>
+              <span class="text-[9px] bg-blue-500/20 text-blue-400 border border-blue-500/30 px-1 py-0.2 rounded font-bold">CORE</span>
+            </div>
+            <span class="text-[10px] text-slate-400">Sistema de Control & Telemetría v2.4</span>
+          </div>
         </div>
+        <!-- BOTÓN CERRAR EN MOBILE -->
+        <button onclick="toggleSidebar()" class="lg:hidden p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white" title="Cerrar Menú">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
       </div>
 
       <!-- BUSCADOR RÁPIDO EN SIDEBAR -->
@@ -213,25 +226,25 @@
     <!-- ==================== ÁREA DE CONTENIDO PRINCIPAL ==================== -->
     <main class="flex-1 bg-slate-950 flex flex-col overflow-y-auto">
 
-      <!-- HEADER SUPERIOR DE CONTENIDO -->
-      <div class="bg-slate-900/60 backdrop-blur border-b border-slate-800 px-6 py-3.5 flex justify-between items-center sticky top-0 z-30">
+      <!-- HEADER SUPERIOR DE CONTENIDO (RESPONSIVE) -->
+      <div class="bg-slate-900/80 backdrop-blur border-b border-slate-800 px-4 sm:px-6 py-3 sm:py-3.5 flex flex-col md:flex-row md:justify-between md:items-center gap-3 sticky top-0 z-30">
         <div>
-          <h1 id="pageTitle" class="text-lg font-bold text-white flex items-center gap-2">
-            <i data-lucide="gauge" class="w-5 h-5 text-red-500"></i> Telemetría de Planta & Indicadores Clave (KPIs)
+          <h1 id="pageTitle" class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
+            <i data-lucide="gauge" class="w-5 h-5 text-red-500 flex-shrink-0"></i> <span>Telemetría de Planta & Indicadores Clave (KPIs)</span>
           </h1>
-          <p id="pageDesc" class="text-xs text-slate-400">Monitoreo en tiempo real de producción, disponibilidad de maquinaria y balance de masa.</p>
+          <p id="pageDesc" class="text-[11px] sm:text-xs text-slate-400 mt-0.5">Monitoreo en tiempo real de producción, disponibilidad de maquinaria y balance de masa.</p>
         </div>
         
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-2 sm:gap-3 flex-wrap">
           <!-- CUSTOM SELECTOR DE TURNO (NO NATIVO, 100% CONTROLADO) -->
-          <div class="relative">
-            <button onclick="toggleDropdownTurno()" id="btnTurno" class="flex items-center gap-2 bg-slate-900 hover:bg-slate-800 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white font-semibold transition">
-              <span class="text-slate-400 font-normal">Turno:</span>
-              <span id="labelTurno">Turno Mañana (06:00 - 14:00)</span>
-              <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400"></i>
+          <div class="relative flex-1 sm:flex-initial">
+            <button onclick="toggleDropdownTurno()" id="btnTurno" class="w-full sm:w-auto flex items-center justify-between gap-2 bg-slate-900 hover:bg-slate-800 border border-slate-700 rounded-lg px-2.5 sm:px-3 py-1.5 text-xs text-white font-semibold transition">
+              <span class="text-slate-400 font-normal hidden xs:inline">Turno:</span>
+              <span id="labelTurno" class="truncate max-w-[150px] xs:max-w-[200px]">Turno Mañana (06:00 - 14:00)</span>
+              <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400 flex-shrink-0"></i>
             </button>
             <!-- DROPDOWN MENU -->
-            <div id="menuTurno" class="hidden absolute right-0 mt-1.5 w-60 bg-slate-900 border border-slate-700 rounded-xl shadow-2xl py-1 z-50 overflow-hidden divide-y divide-slate-800/60 font-medium">
+            <div id="menuTurno" class="hidden absolute left-0 sm:left-auto sm:right-0 mt-1.5 w-64 bg-slate-900 border border-slate-700 rounded-xl shadow-2xl py-1 z-50 overflow-hidden divide-y divide-slate-800/60 font-medium">
               <button onclick="seleccionarTurno('Turno Mañana (06:00 - 14:00)', 1492)" class="w-full text-left px-3.5 py-2 text-xs text-slate-200 hover:bg-slate-800 hover:text-white flex items-center justify-between transition">
                 <span>Turno Mañana (06:00 - 14:00)</span>
                 <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
@@ -247,14 +260,14 @@
             </div>
           </div>
 
-          <button onclick="simularPulsoIoT()" class="bg-red-600 hover:bg-red-500 text-white font-semibold text-xs px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 shadow">
-            <i data-lucide="radio" class="w-3.5 h-3.5 animate-pulse"></i> Pulso IoT en Vivo
+          <button onclick="simularPulsoIoT()" class="flex-shrink-0 bg-red-600 hover:bg-red-500 text-white font-semibold text-xs px-2.5 sm:px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 shadow">
+            <i data-lucide="radio" class="w-3.5 h-3.5 animate-pulse"></i> <span>Pulso IoT</span>
           </button>
         </div>
       </div>
 
-      <!-- CONTENEDOR DINÁMICO DE VISTAS -->
-      <div class="p-6 space-y-6 flex-1">
+      <!-- CONTENEDOR DINÁMICO DE VISTAS (PADDING RESPONSIVE) -->
+      <div class="p-3 sm:p-5 lg:p-6 space-y-4 sm:space-y-6 flex-1">
 
         <!-- ==================== VISTA 1: TELEMETRÍA ==================== -->
         <div id="view-telemetria" class="space-y-6">
@@ -720,6 +733,30 @@
 
   <!-- JAVASCRIPT LOGIC -->
   <script>
+    // SIDEBAR OFF-CANVAS RESPONSIVE (MOBILE & TABLET)
+    function toggleSidebar() {
+      const sidebar = document.getElementById('mainSidebar');
+      const backdrop = document.getElementById('sidebarBackdrop');
+      const isClosed = sidebar.classList.contains('-translate-x-full');
+      
+      if (isClosed) {
+        sidebar.classList.remove('-translate-x-full');
+        backdrop.classList.remove('hidden');
+      } else {
+        sidebar.classList.add('-translate-x-full');
+        backdrop.classList.add('hidden');
+      }
+    }
+
+    function closeSidebarMobile() {
+      if (window.innerWidth < 1024) {
+        const sidebar = document.getElementById('mainSidebar');
+        const backdrop = document.getElementById('sidebarBackdrop');
+        if (sidebar) sidebar.classList.add('-translate-x-full');
+        if (backdrop) backdrop.classList.add('hidden');
+      }
+    }
+
     // DROPDOWN PERSONALIZADO DE TURNOS (SOLUCIÓN BUG VISUAL)
     function toggleDropdownTurno() {
       const menu = document.getElementById('menuTurno');
@@ -745,6 +782,9 @@
 
     // NAVEGACIÓN ENTRE SECCIONES (SOPORTA TODAS LAS VISTAS)
     function navigate(viewId) {
+      // Si estamos en mobile/tablet, cerrar automáticamente el sidebar
+      closeSidebarMobile();
+
       const todasLasVistas = ['telemetria', 'lineas', 'personal', 'rendimiento-operarios', 'stock', 'compras', 'mantenimiento', 'reportes', 'auditoria'];
       
       // Ocultar todas las vistas
