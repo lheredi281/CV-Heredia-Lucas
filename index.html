@@ -223,14 +223,28 @@
         </div>
         
         <div class="flex items-center gap-3">
-          <!-- SELECTOR DE PLANTA / TURNO -->
-          <div class="flex items-center gap-2 bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1 text-xs">
-            <span class="text-slate-400">Turno:</span>
-            <select class="bg-transparent text-white font-semibold focus:outline-none cursor-pointer">
-              <option value="1">Turno Mañana (06:00 - 14:00)</option>
-              <option value="2">Turno Tarde (14:00 - 22:00)</option>
-              <option value="3">Consolidado 24hs</option>
-            </select>
+          <!-- CUSTOM SELECTOR DE TURNO (NO NATIVO, 100% CONTROLADO) -->
+          <div class="relative">
+            <button onclick="toggleDropdownTurno()" id="btnTurno" class="flex items-center gap-2 bg-slate-900 hover:bg-slate-800 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white font-semibold transition">
+              <span class="text-slate-400 font-normal">Turno:</span>
+              <span id="labelTurno">Turno Mañana (06:00 - 14:00)</span>
+              <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400"></i>
+            </button>
+            <!-- DROPDOWN MENU -->
+            <div id="menuTurno" class="hidden absolute right-0 mt-1.5 w-60 bg-slate-900 border border-slate-700 rounded-xl shadow-2xl py-1 z-50 overflow-hidden divide-y divide-slate-800/60 font-medium">
+              <button onclick="seleccionarTurno('Turno Mañana (06:00 - 14:00)', 1492)" class="w-full text-left px-3.5 py-2 text-xs text-slate-200 hover:bg-slate-800 hover:text-white flex items-center justify-between transition">
+                <span>Turno Mañana (06:00 - 14:00)</span>
+                <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+              </button>
+              <button onclick="seleccionarTurno('Turno Tarde (14:00 - 22:00)', 1180)" class="w-full text-left px-3.5 py-2 text-xs text-slate-200 hover:bg-slate-800 hover:text-white flex items-center justify-between transition">
+                <span>Turno Tarde (14:00 - 22:00)</span>
+                <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+              </button>
+              <button onclick="seleccionarTurno('Consolidado 24hs (Todas las Líneas)', 2672)" class="w-full text-left px-3.5 py-2 text-xs text-slate-200 hover:bg-slate-800 hover:text-white flex items-center justify-between transition">
+                <span>Consolidado 24hs</span>
+                <span class="w-2 h-2 rounded-full bg-purple-500"></span>
+              </button>
+            </div>
           </div>
 
           <button onclick="simularPulsoIoT()" class="bg-red-600 hover:bg-red-500 text-white font-semibold text-xs px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 shadow">
@@ -630,6 +644,29 @@
 
   <!-- JAVASCRIPT LOGIC -->
   <script>
+    // DROPDOWN PERSONALIZADO DE TURNOS (SOLUCIÓN BUG VISUAL)
+    function toggleDropdownTurno() {
+      const menu = document.getElementById('menuTurno');
+      menu.classList.toggle('hidden');
+    }
+
+    function seleccionarTurno(texto, prendas) {
+      document.getElementById('labelTurno').innerText = texto;
+      document.getElementById('menuTurno').classList.add('hidden');
+      if (prendas && document.getElementById('kpiPrendas')) {
+        document.getElementById('kpiPrendas').innerText = prendas.toLocaleString();
+      }
+    }
+
+    // Cerrar dropdown si se hace clic afuera
+    document.addEventListener('click', (e) => {
+      const btn = document.getElementById('btnTurno');
+      const menu = document.getElementById('menuTurno');
+      if (btn && menu && !btn.contains(e.target) && !menu.contains(e.target)) {
+        menu.classList.add('hidden');
+      }
+    });
+
     // NAVEGACIÓN ENTRE SECCIONES (SOPORTA TODAS LAS VISTAS)
     function navigate(viewId) {
       // Normalizar alias de submenú
