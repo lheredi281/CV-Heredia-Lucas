@@ -1,397 +1,652 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="h-full bg-slate-950">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CONFECAT Operations Core · Prototipo Funcional</title>
+  <title>CONFECAT Operations Core · Enterprise ERP & Analytics</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Chart.js CDN -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#fef2f2',
+              500: '#ef4444',
+              600: '#dc2626',
+              700: '#b91c1c',
+              900: '#7f1d1d'
+            }
+          }
+        }
+      }
+    }
+  </script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
-    body { font-family: 'Plus Jakarta Sans', sans-serif; }
-    .tab-active { border-color: #dc2626; color: #dc2626; background-color: #fef2f2; }
+    /* Custom Scrollbars */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #0f172a; }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+    .nav-item-active {
+      background: linear-gradient(90deg, rgba(220, 38, 38, 0.18) 0%, rgba(220, 38, 38, 0.05) 100%);
+      color: #ffffff;
+      border-left: 3px solid #dc2626;
+      font-weight: 600;
+    }
   </style>
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col">
+<body class="h-full flex flex-col font-sans text-slate-100 bg-slate-950 overflow-hidden">
 
-  <!-- TOP BANNER POSTULACION -->
-  <div class="bg-gradient-to-r from-red-600 via-red-700 to-slate-900 px-4 py-2.5 text-xs sm:text-sm font-medium flex flex-wrap justify-between items-center shadow-lg">
+  <!-- TOP PROMO BANNER (CANDIDATE PITCH) -->
+  <header class="bg-gradient-to-r from-red-700 via-slate-900 to-slate-900 border-b border-red-900/40 px-4 py-2 flex flex-wrap justify-between items-center z-50 flex-shrink-0">
     <div class="flex items-center gap-2">
-      <span class="bg-white text-red-700 font-bold px-2 py-0.5 rounded text-[11px] uppercase tracking-wider">Demo Interactiva</span>
-      <span>Sistema Prototipo de Operaciones & Datos desarrollado para <strong>CONFECAT S.A.</strong></span>
+      <span class="bg-red-600 text-white font-extrabold text-[10px] px-2 py-0.5 rounded uppercase tracking-wider shadow">DEMO EN VIVO</span>
+      <span class="text-xs text-slate-200">
+        Prototipo de Gestión Integral desarrollado para <strong>CONFECAT S.A.</strong>
+      </span>
+      <span class="hidden md:inline-block text-[11px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded border border-slate-700 font-mono">
+        Stack: Next.js Architecture · REST APIs · Tailwind · Chart.js
+      </span>
     </div>
-    <div class="flex items-center gap-3 mt-1 sm:mt-0">
-      <span class="text-red-100">Desarrollado por: <strong>Lucas Yoel Heredia</strong> (Postulante a Analista de Sistemas)</span>
-      <a href="https://wa.me/5493834013395" target="_blank" class="bg-emerald-600 hover:bg-emerald-500 text-white font-semibold px-2.5 py-1 rounded text-xs transition flex items-center gap-1">
-        <i data-lucide="phone" class="w-3.5 h-3.5"></i> Contactar WhatsApp
+    <div class="flex items-center gap-3">
+      <div class="text-xs text-slate-300 hidden sm:block">
+        Postulante: <strong class="text-white">Lucas Yoel Heredia</strong> (Analista de Sistemas)
+      </div>
+      <a href="https://wa.me/5493834013395?text=Hola%20Lucas,%20vimos%20tu%20demo%20de%20CONFECAT" target="_blank" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-3 py-1 rounded-md transition flex items-center gap-1.5 shadow">
+        <i data-lucide="message-circle" class="w-3.5 h-3.5"></i> Contactar WhatsApp
       </a>
-    </div>
-  </div>
-
-  <!-- HEADER & NAVBAR -->
-  <header class="bg-slate-800/80 backdrop-blur border-b border-slate-700 sticky top-0 z-40">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-lg bg-red-600 flex items-center justify-center font-black text-xl text-white shadow-md">
-          C
-        </div>
-        <div>
-          <div class="flex items-center gap-2">
-            <span class="font-extrabold text-lg tracking-tight text-white">CONFECAT</span>
-            <span class="text-[10px] bg-red-500/20 text-red-400 border border-red-500/30 px-1.5 py-0.5 rounded font-bold">OPERATIONS CORE</span>
-          </div>
-          <p class="text-[11px] text-slate-400">Plataforma Integral de Telemetría, Abastecimiento y Control de Planta</p>
-        </div>
-      </div>
-
-      <!-- STATUS & TIMESTAMP -->
-      <div class="hidden md:flex items-center gap-4 text-xs text-slate-300">
-        <div class="flex items-center gap-1.5 bg-slate-900 px-3 py-1.5 rounded-full border border-slate-700">
-          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-          <span>Planta Catamarca: <strong class="text-white">Operativa</strong></span>
-        </div>
-        <div id="liveClock" class="font-mono text-slate-400">18/10/2026 --:--:--</div>
-      </div>
-    </div>
-
-    <!-- NAVIGATION TABS -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex gap-2 border-t border-slate-700/50 overflow-x-auto py-1">
-      <button onclick="switchTab('dashboard')" id="tab-dashboard" class="tab-btn px-4 py-2 text-xs font-semibold rounded-md flex items-center gap-2 transition tab-active">
-        <i data-lucide="layout-dashboard" class="w-4 h-4"></i> 1. Telemetría & KPIs de Planta
-      </button>
-      <button onclick="switchTab('panol')" id="tab-panol" class="tab-btn px-4 py-2 text-xs font-semibold rounded-md flex items-center gap-2 transition text-slate-400 hover:text-white">
-        <i data-lucide="boxes" class="w-4 h-4"></i> 2. Control de Stock & Pañol Textil
-      </button>
-      <button onclick="switchTab('maquinas')" id="tab-maquinas" class="tab-btn px-4 py-2 text-xs font-semibold rounded-md flex items-center gap-2 transition text-slate-400 hover:text-white">
-        <i data-lucide="cpu" class="w-4 h-4"></i> 3. Mantenimiento Preventivo IoT
-      </button>
-      <button onclick="switchTab('reportes')" id="tab-reportes" class="tab-btn px-4 py-2 text-xs font-semibold rounded-md flex items-center gap-2 transition text-slate-400 hover:text-white">
-        <i data-lucide="file-spreadsheet" class="w-4 h-4"></i> 4. Generador Excel/Script Automatizado
-      </button>
+      <a href="CV_Lucas_Heredia_Analista_de_Sistemas.pdf" download class="bg-slate-800 hover:bg-slate-700 border border-slate-600 text-slate-200 text-xs px-2.5 py-1 rounded-md transition flex items-center gap-1">
+        <i data-lucide="file-text" class="w-3.5 h-3.5"></i> Descargar CV
+      </a>
     </div>
   </header>
 
-  <!-- MAIN CONTAINER -->
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-1 w-full">
+  <!-- MAIN WRAPPER (SIDEBAR + CONTENT) -->
+  <div class="flex-1 flex overflow-hidden">
 
-    <!-- ==================== VISTA 1: DASHBOARD TELEMETRÍA ==================== -->
-    <section id="view-dashboard" class="space-y-6">
-      <!-- 4 KPI CARDS -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <!-- KPI 1 -->
-        <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 shadow-sm relative overflow-hidden">
-          <div class="flex justify-between items-start">
-            <div>
-              <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Prendas Fabricadas Hoy</p>
-              <h3 class="text-2xl font-black text-white mt-1" id="kpiPrendas">1,482</h3>
-              <p class="text-xs text-emerald-400 mt-1 flex items-center gap-1">
-                <i data-lucide="trending-up" class="w-3.5 h-3.5"></i> +8.4% vs. meta de turno
-              </p>
-            </div>
-            <div class="p-2.5 bg-red-500/10 text-red-500 rounded-lg">
-              <i data-lucide="shirt" class="w-5 h-5"></i>
-            </div>
-          </div>
-          <div class="w-full bg-slate-700 h-1.5 rounded-full mt-3 overflow-hidden">
-            <div class="bg-red-500 h-full rounded-full" style="width: 86%;"></div>
-          </div>
+    <!-- ==================== SIDEBAR LATERAL IZQUIERDO ==================== -->
+    <aside class="w-64 bg-slate-900 border-r border-slate-800 flex flex-col flex-shrink-0 z-40">
+      
+      <!-- LOGO CORPORATIVO -->
+      <div class="p-4 border-b border-slate-800 flex items-center gap-3">
+        <div class="w-9 h-9 rounded-lg bg-red-600 flex items-center justify-center font-black text-xl text-white shadow-md">
+          C
         </div>
-
-        <!-- KPI 2 -->
-        <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 shadow-sm">
-          <div class="flex justify-between items-start">
-            <div>
-              <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Disponibilidad Máquinas</p>
-              <h3 class="text-2xl font-black text-white mt-1">94.8%</h3>
-              <p class="text-xs text-slate-300 mt-1">
-                <span class="text-emerald-400 font-bold">29</span> operativas / <span class="text-amber-400 font-bold">2</span> en taller
-              </p>
-            </div>
-            <div class="p-2.5 bg-emerald-500/10 text-emerald-400 rounded-lg">
-              <i data-lucide="gauge" class="w-5 h-5"></i>
-            </div>
+        <div>
+          <div class="flex items-center gap-1.5">
+            <span class="font-extrabold text-base tracking-tight text-white">CONFECAT</span>
+            <span class="text-[9px] bg-red-500/20 text-red-400 border border-red-500/30 px-1 py-0.2 rounded font-bold">CORE</span>
           </div>
-          <div class="w-full bg-slate-700 h-1.5 rounded-full mt-3 overflow-hidden">
-            <div class="bg-emerald-500 h-full rounded-full" style="width: 94.8%;"></div>
-          </div>
-        </div>
-
-        <!-- KPI 3 -->
-        <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 shadow-sm">
-          <div class="flex justify-between items-start">
-            <div>
-              <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Alertas Stock Crítico</p>
-              <h3 class="text-2xl font-black text-amber-400 mt-1" id="kpiAlertas">3 Ítems</h3>
-              <p class="text-xs text-amber-300 mt-1 flex items-center gap-1">
-                <i data-lucide="alert-triangle" class="w-3.5 h-3.5"></i> Reorden sugerido hoy
-              </p>
-            </div>
-            <div class="p-2.5 bg-amber-500/10 text-amber-400 rounded-lg">
-              <i data-lucide="alert-circle" class="w-5 h-5"></i>
-            </div>
-          </div>
-          <div class="w-full bg-slate-700 h-1.5 rounded-full mt-3 overflow-hidden">
-            <div class="bg-amber-400 h-full rounded-full" style="width: 35%;"></div>
-          </div>
-        </div>
-
-        <!-- KPI 4 -->
-        <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 shadow-sm">
-          <div class="flex justify-between items-start">
-            <div>
-              <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Tasa de Merma / Scrap</p>
-              <h3 class="text-2xl font-black text-emerald-400 mt-1">1.12%</h3>
-              <p class="text-xs text-slate-400 mt-1">
-                Límite tolerancia: <strong>2.50%</strong>
-              </p>
-            </div>
-            <div class="p-2.5 bg-blue-500/10 text-blue-400 rounded-lg">
-              <i data-lucide="percent" class="w-5 h-5"></i>
-            </div>
-          </div>
-          <div class="w-full bg-slate-700 h-1.5 rounded-full mt-3 overflow-hidden">
-            <div class="bg-blue-500 h-full rounded-full" style="width: 45%;"></div>
-          </div>
+          <span class="text-[10px] text-slate-400">Planta Catamarca v2.4</span>
         </div>
       </div>
 
-      <!-- CHARTS SECTION -->
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <!-- LINE CHART -->
-        <div class="lg:col-span-2 bg-slate-800 p-5 rounded-xl border border-slate-700">
-          <div class="flex justify-between items-center mb-4">
-            <div>
-              <h3 class="font-bold text-white text-base">Curva de Productividad por Turno (Prendas/Hora)</h3>
-              <p class="text-xs text-slate-400">Comparativa Turno Mañana vs. Tarde vs. Objetivo Programado</p>
-            </div>
-            <button onclick="simularProduccion()" class="text-xs bg-slate-700 hover:bg-slate-600 px-3 py-1.5 rounded-lg border border-slate-600 transition flex items-center gap-1.5 text-slate-200">
-              <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Simular Pulso IoT
+      <!-- BUSCADOR RÁPIDO EN SIDEBAR -->
+      <div class="p-3 border-b border-slate-800/60">
+        <div class="relative">
+          <i data-lucide="search" class="w-3.5 h-3.5 text-slate-500 absolute left-2.5 top-2.5"></i>
+          <input type="text" placeholder="Buscar módulo, orden..." class="w-full bg-slate-950 text-xs pl-8 pr-3 py-1.5 rounded-md border border-slate-800 focus:outline-none focus:border-red-500 text-slate-300">
+        </div>
+      </div>
+
+      <!-- MENÚS Y SUBMENÚS CON SEPARADORES -->
+      <nav class="flex-1 overflow-y-auto p-3 space-y-4">
+        
+        <!-- SECCIÓN 1: PLANTA Y TELEMETRÍA -->
+        <div>
+          <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider px-3">Producción & Planta</span>
+          <div class="mt-1 space-y-0.5">
+            <button onclick="navigate('telemetria')" id="nav-telemetria" class="w-full flex items-center justify-between px-3 py-2 text-xs rounded-md text-slate-300 hover:bg-slate-800/80 transition nav-item-active">
+              <span class="flex items-center gap-2.5"><i data-lucide="gauge" class="w-4 h-4 text-red-500"></i> Telemetría en Vivo</span>
+              <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
             </button>
-          </div>
-          <div class="h-64">
-            <canvas id="chartProduccion"></canvas>
-          </div>
-        </div>
-
-        <!-- DONUT CHART (EFICIENCIA POR LÍNEA) -->
-        <div class="bg-slate-800 p-5 rounded-xl border border-slate-700">
-          <h3 class="font-bold text-white text-base mb-1">Distribución por Línea Textil</h3>
-          <p class="text-xs text-slate-400 mb-4">Aporte al volumen total de confección</p>
-          <div class="h-56 relative flex items-center justify-center">
-            <canvas id="chartLineas"></canvas>
-          </div>
-          <div class="grid grid-cols-2 gap-2 mt-2 text-xs text-slate-300">
-            <div class="flex items-center gap-2"><span class="w-3 h-3 rounded bg-red-500"></span> Confección Camisería</div>
-            <div class="flex items-center gap-2"><span class="w-3 h-3 rounded bg-blue-500"></span> Pantalón de Trabajo</div>
-            <div class="flex items-center gap-2"><span class="w-3 h-3 rounded bg-amber-500"></span> Calzado Industrial</div>
-            <div class="flex items-center gap-2"><span class="w-3 h-3 rounded bg-emerald-500"></span> Indumentaria EPP</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ==================== VISTA 2: PAÑOL & CONTROL DE STOCK ==================== -->
-    <section id="view-panol" class="hidden space-y-4">
-      <div class="bg-slate-800 p-5 rounded-xl border border-slate-700">
-        <div class="flex flex-col md:flex-row justify-between md:items-center gap-3 mb-4">
-          <div>
-            <h3 class="font-bold text-white text-lg">Control de Insumos & Pañol Central</h3>
-            <p class="text-xs text-slate-400">Algoritmo automático de punto de reposición y control de mermas</p>
-          </div>
-          <div class="flex items-center gap-2">
-            <input type="text" id="busquedaStock" onkeyup="filtrarTabla()" placeholder="Buscar por código, tela, hilo..." class="bg-slate-900 border border-slate-700 px-3 py-1.5 rounded-lg text-xs text-white focus:outline-none focus:border-red-500">
-            <button onclick="agregarInsumoModal()" class="bg-red-600 hover:bg-red-500 text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5">
-              <i data-lucide="plus" class="w-4 h-4"></i> Nuevo Insumo
+            <button onclick="navigate('lineas')" id="nav-lineas" class="w-full flex items-center gap-2.5 px-3 py-2 text-xs rounded-md text-slate-400 hover:text-slate-100 hover:bg-slate-800/80 transition">
+              <i data-lucide="layers" class="w-4 h-4 text-slate-400"></i> Líneas de Confección
+            </button>
+            <button onclick="navigate('mantenimiento')" id="nav-mantenimiento" class="w-full flex items-center justify-between px-3 py-2 text-xs rounded-md text-slate-400 hover:text-slate-100 hover:bg-slate-800/80 transition">
+              <span class="flex items-center gap-2.5"><i data-lucide="wrench" class="w-4 h-4 text-slate-400"></i> Maquinaria & Taller</span>
+              <span class="text-[9px] bg-amber-500/20 text-amber-400 px-1.5 py-0.2 rounded font-bold">2 Alertas</span>
             </button>
           </div>
         </div>
 
-        <div class="overflow-x-auto">
-          <table class="w-full text-left text-xs text-slate-300" id="tablaStock">
-            <thead class="bg-slate-900/60 uppercase font-bold text-slate-400 text-[11px] border-b border-slate-700">
-              <tr>
-                <th class="py-3 px-4">Código</th>
-                <th class="py-3 px-4">Descripción del Insumo</th>
-                <th class="py-3 px-4">Familia</th>
-                <th class="py-3 px-4 text-right">Stock Actual</th>
-                <th class="py-3 px-4 text-right">Punto Reorden</th>
-                <th class="py-3 px-4 text-center">Estado</th>
-                <th class="py-3 px-4 text-center">Acción</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-slate-700/50" id="stockBody">
-              <!-- Filas generadas dinámicamente -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
+        <!-- SEPARADOR -->
+        <hr class="border-slate-800">
 
-    <!-- ==================== VISTA 3: MANTENIMIENTO IOT ==================== -->
-    <section id="view-maquinas" class="hidden space-y-4">
-      <div class="bg-slate-800 p-5 rounded-xl border border-slate-700">
-        <div class="flex justify-between items-center mb-4">
-          <div>
-            <h3 class="font-bold text-white text-lg">Parque de Maquinaria Textil & Taller de Mantenimiento</h3>
-            <p class="text-xs text-slate-400">Telemetría de horas de motor, ciclos de costura y alertas preventivas programadas</p>
+        <!-- SECCIÓN 2: CAPITAL HUMANO & PRODUCTIVIDAD -->
+        <div>
+          <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider px-3">Capital Humano</span>
+          <div class="mt-1 space-y-0.5">
+            <button onclick="navigate('personal')" id="nav-personal" class="w-full flex items-center justify-between px-3 py-2 text-xs rounded-md text-slate-400 hover:text-slate-100 hover:bg-slate-800/80 transition">
+              <span class="flex items-center gap-2.5"><i data-lucide="users" class="w-4 h-4 text-slate-400"></i> Nómina & Asistencia</span>
+              <span class="text-[10px] font-mono text-slate-400">48 activos</span>
+            </button>
+            <button onclick="navigate('rendimiento-operarios')" id="nav-rendimiento-operarios" class="w-full flex items-center gap-2.5 px-3 py-2 text-xs rounded-md text-slate-400 hover:text-slate-100 hover:bg-slate-800/80 transition">
+              <i data-lucide="trending-up" class="w-4 h-4 text-slate-400"></i> Rendimiento por Operario
+            </button>
           </div>
-          <span class="text-xs bg-slate-900 border border-slate-700 px-3 py-1 rounded-full text-slate-300">
-            Protocolo de servicio: <strong>Cada 250 / 500 horas</strong>
-          </span>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="maquinasGrid">
-          <!-- Tarjetas generadas dinámicamente -->
-        </div>
-      </div>
-    </section>
+        <!-- SEPARADOR -->
+        <hr class="border-slate-800">
 
-    <!-- ==================== VISTA 4: REPORTE EXCEL AUTOMATIZADO ==================== -->
-    <section id="view-reportes" class="hidden space-y-4">
-      <div class="bg-slate-800 p-5 rounded-xl border border-slate-700">
-        <div class="flex justify-between items-start mb-4">
-          <div>
-            <h3 class="font-bold text-white text-lg">Motor de Automatización de Reportes (Apps Script / Macro Sim)</h3>
-            <p class="text-xs text-slate-400">Consolidación instantánea de planillas sin carga manual. Exportación directa.</p>
+        <!-- SECCIÓN 3: LOGÍSTICA & SUPPLY CHAIN -->
+        <div>
+          <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider px-3">Supply Chain & Pañol</span>
+          <div class="mt-1 space-y-0.5">
+            <button onclick="navigate('stock')" id="nav-stock" class="w-full flex items-center justify-between px-3 py-2 text-xs rounded-md text-slate-400 hover:text-slate-100 hover:bg-slate-800/80 transition">
+              <span class="flex items-center gap-2.5"><i data-lucide="boxes" class="w-4 h-4 text-slate-400"></i> Control de Stock & Insumos</span>
+              <span class="text-[9px] bg-red-500/20 text-red-400 px-1.5 py-0.2 rounded font-bold">Crítico</span>
+            </button>
+            <button onclick="navigate('compras')" id="nav-compras" class="w-full flex items-center gap-2.5 px-3 py-2 text-xs rounded-md text-slate-400 hover:text-slate-100 hover:bg-slate-800/80 transition">
+              <i data-lucide="shopping-cart" class="w-4 h-4 text-slate-400"></i> Solicitudes de Compra
+            </button>
           </div>
-          <button onclick="generarReporteSim()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs px-4 py-2 rounded-lg transition flex items-center gap-2 shadow-md">
-            <i data-lucide="download" class="w-4 h-4"></i> Ejecutar Script & Descargar CSV
+        </div>
+
+        <!-- SEPARADOR -->
+        <hr class="border-slate-800">
+
+        <!-- SECCIÓN 4: AUTOMATIZACIÓN & SISTEMAS -->
+        <div>
+          <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider px-3">Analítica & Automatización</span>
+          <div class="mt-1 space-y-0.5">
+            <button onclick="navigate('reportes')" id="nav-reportes" class="w-full flex items-center gap-2.5 px-3 py-2 text-xs rounded-md text-slate-400 hover:text-slate-100 hover:bg-slate-800/80 transition">
+              <i data-lucide="file-spreadsheet" class="w-4 h-4 text-slate-400"></i> Generador Excel / CSV
+            </button>
+            <button onclick="navigate('auditoria')" id="nav-auditoria" class="w-full flex items-center gap-2.5 px-3 py-2 text-xs rounded-md text-slate-400 hover:text-slate-100 hover:bg-slate-800/80 transition">
+              <i data-lucide="shield-check" class="w-4 h-4 text-slate-400"></i> Logs & Auditoría RBAC
+            </button>
+          </div>
+        </div>
+
+      </nav>
+
+      <!-- USUARIO ACTIVO / STATUS FOOTER -->
+      <div class="p-3 bg-slate-950 border-t border-slate-800 flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <div class="w-7 h-7 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center font-bold text-xs text-red-400">
+            LH
+          </div>
+          <div>
+            <p class="text-xs font-semibold text-slate-200 leading-tight">Lucas Heredia</p>
+            <span class="text-[10px] text-emerald-400 flex items-center gap-1 font-mono">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Conectado
+            </span>
+          </div>
+        </div>
+        <button title="Configuración" class="text-slate-500 hover:text-slate-300">
+          <i data-lucide="settings" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+    </aside>
+
+    <!-- ==================== ÁREA DE CONTENIDO PRINCIPAL ==================== -->
+    <main class="flex-1 bg-slate-950 flex flex-col overflow-y-auto">
+
+      <!-- HEADER SUPERIOR DE CONTENIDO -->
+      <div class="bg-slate-900/60 backdrop-blur border-b border-slate-800 px-6 py-3.5 flex justify-between items-center sticky top-0 z-30">
+        <div>
+          <h1 id="pageTitle" class="text-lg font-bold text-white flex items-center gap-2">
+            <i data-lucide="gauge" class="w-5 h-5 text-red-500"></i> Telemetría de Planta & Indicadores Clave (KPIs)
+          </h1>
+          <p id="pageDesc" class="text-xs text-slate-400">Monitoreo en tiempo real de producción, disponibilidad de maquinaria y balance de masa.</p>
+        </div>
+        
+        <div class="flex items-center gap-3">
+          <!-- SELECTOR DE PLANTA / TURNO -->
+          <div class="flex items-center gap-2 bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1 text-xs">
+            <span class="text-slate-400">Turno:</span>
+            <select class="bg-transparent text-white font-semibold focus:outline-none cursor-pointer">
+              <option value="1">Turno Mañana (06:00 - 14:00)</option>
+              <option value="2">Turno Tarde (14:00 - 22:00)</option>
+              <option value="3">Consolidado 24hs</option>
+            </select>
+          </div>
+
+          <button onclick="simularPulsoIoT()" class="bg-red-600 hover:bg-red-500 text-white font-semibold text-xs px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 shadow">
+            <i data-lucide="radio" class="w-3.5 h-3.5 animate-pulse"></i> Pulso IoT en Vivo
           </button>
         </div>
+      </div>
 
-        <div class="bg-slate-900 rounded-lg p-4 font-mono text-xs text-emerald-400 border border-slate-700 space-y-1">
-          <p class="text-slate-500">// Script de automatización de datos para CONFECAT S.A. - Desarrollado por Lucas Heredia</p>
-          <p><span class="text-purple-400">function</span> <span class="text-blue-400">consolidarReportePlantaDiario</span>() {</p>
-          <p class="pl-4">const turno = <span class="text-amber-300">"Mañana + Tarde"</span>;</p>
-          <p class="pl-4">const kpis = CONFECAT_CORE.<span class="text-blue-400">calcularIndicadores</span>({ toleranciaScrap: 0.025 });</p>
-          <p class="pl-4">Logger.<span class="text-blue-400">log</span>(<span class="text-amber-300">`Reporte generado: ${kpis.totalPrendas} prendas | Eficiencia: 94.8%`</span>);</p>
-          <p class="pl-4">CONFECAT_CORE.<span class="text-blue-400">exportarAuditoriaGerencial</span>();</p>
-          <p>}</p>
-        </div>
+      <!-- CONTENEDOR DINÁMICO DE VISTAS -->
+      <div class="p-6 space-y-6 flex-1">
 
-        <!-- LOG DE AUDITORIA GENERADO -->
-        <div class="mt-4 border-t border-slate-700 pt-4">
-          <h4 class="text-xs font-bold text-slate-300 uppercase mb-2">Salida de Auditoría en Tiempo Real:</h4>
-          <div id="scriptOutput" class="bg-slate-950 p-3 rounded text-xs font-mono text-slate-300 h-32 overflow-y-auto">
-            [18/10/2026 06:00:00] [SYSTEM] Conectado a base de datos de producción Catamarca.<br>
-            [18/10/2026 06:01:12] [MAQUINAS] 31 máquinas registradas. 2 órdenes de servicio preventivo programadas.<br>
-            [18/10/2026 06:02:45] [STOCK] 3 insumos bajo el umbral mínimo de seguridad. Notificación de compra emitida.<br>
-            [18/10/2026 06:05:00] [KPI] Tasa de rendimiento de corte y confección: 98.88% de aprovechamiento de tela.
+        <!-- ==================== VISTA 1: TELEMETRÍA ==================== -->
+        <div id="view-telemetria" class="space-y-6">
+          <!-- 4 TARJETAS KPIS -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            
+            <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 relative overflow-hidden shadow-sm">
+              <div class="flex justify-between items-start">
+                <div>
+                  <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Prendas Fabricadas Hoy</span>
+                  <h3 class="text-3xl font-extrabold text-white mt-1" id="kpiPrendas">1,492</h3>
+                  <p class="text-xs text-emerald-400 mt-1 flex items-center gap-1 font-semibold">
+                    <i data-lucide="trending-up" class="w-3.5 h-3.5"></i> +9.1% sobre cuota
+                  </p>
+                </div>
+                <div class="p-2.5 bg-red-500/10 text-red-400 rounded-lg border border-red-500/20">
+                  <i data-lucide="shirt" class="w-5 h-5"></i>
+                </div>
+              </div>
+              <div class="w-full bg-slate-800 h-1.5 rounded-full mt-3 overflow-hidden">
+                <div id="barPrendas" class="bg-red-500 h-full rounded-full transition-all duration-500" style="width: 87%;"></div>
+              </div>
+            </div>
+
+            <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 shadow-sm">
+              <div class="flex justify-between items-start">
+                <div>
+                  <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Disponibilidad Máquinas</span>
+                  <h3 class="text-3xl font-extrabold text-emerald-400 mt-1">95.2%</h3>
+                  <p class="text-xs text-slate-300 mt-1 font-medium">
+                    <span class="text-white font-bold">29</span> operativas / <span class="text-amber-400 font-bold">2</span> en service
+                  </p>
+                </div>
+                <div class="p-2.5 bg-emerald-500/10 text-emerald-400 rounded-lg border border-emerald-500/20">
+                  <i data-lucide="activity" class="w-5 h-5"></i>
+                </div>
+              </div>
+              <div class="w-full bg-slate-800 h-1.5 rounded-full mt-3 overflow-hidden">
+                <div class="bg-emerald-500 h-full rounded-full" style="width: 95.2%;"></div>
+              </div>
+            </div>
+
+            <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 shadow-sm">
+              <div class="flex justify-between items-start">
+                <div>
+                  <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Alertas Stock Pañol</span>
+                  <h3 class="text-3xl font-extrabold text-amber-400 mt-1">3 Ítems</h3>
+                  <p class="text-xs text-amber-300 mt-1 flex items-center gap-1 font-medium">
+                    <i data-lucide="alert-triangle" class="w-3.5 h-3.5"></i> Pedido de reposición
+                  </p>
+                </div>
+                <div class="p-2.5 bg-amber-500/10 text-amber-400 rounded-lg border border-amber-500/20">
+                  <i data-lucide="package-search" class="w-5 h-5"></i>
+                </div>
+              </div>
+              <div class="w-full bg-slate-800 h-1.5 rounded-full mt-3 overflow-hidden">
+                <div class="bg-amber-400 h-full rounded-full" style="width: 30%;"></div>
+              </div>
+            </div>
+
+            <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 shadow-sm">
+              <div class="flex justify-between items-start">
+                <div>
+                  <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Aprovechamiento Tela</span>
+                  <h3 class="text-3xl font-extrabold text-blue-400 mt-1">98.88%</h3>
+                  <p class="text-xs text-slate-400 mt-1">
+                    Merma textil: <strong class="text-emerald-400">1.12%</strong> (Meta &lt; 2.5%)
+                  </p>
+                </div>
+                <div class="p-2.5 bg-blue-500/10 text-blue-400 rounded-lg border border-blue-500/20">
+                  <i data-lucide="scissors" class="w-5 h-5"></i>
+                </div>
+              </div>
+              <div class="w-full bg-slate-800 h-1.5 rounded-full mt-3 overflow-hidden">
+                <div class="bg-blue-500 h-full rounded-full" style="width: 98.88%;"></div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- GRÁFICOS PRINCIPALES -->
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="lg:col-span-2 bg-slate-900 p-5 rounded-xl border border-slate-800">
+              <div class="flex justify-between items-center mb-4">
+                <div>
+                  <h3 class="font-bold text-white text-base">Curva Horaria de Confección vs. Meta Programada</h3>
+                  <p class="text-xs text-slate-400">Medición continua de productividad por horas de turno</p>
+                </div>
+                <span class="text-[11px] bg-slate-800 text-slate-300 px-2.5 py-1 rounded border border-slate-700">Actualización: Cada 60s</span>
+              </div>
+              <div class="h-64">
+                <canvas id="chartProduccion"></canvas>
+              </div>
+            </div>
+
+            <div class="bg-slate-900 p-5 rounded-xl border border-slate-800">
+              <h3 class="font-bold text-white text-base mb-1">Volumen por Familia de Producto</h3>
+              <p class="text-xs text-slate-400 mb-4">Aporte porcentual al total de la jornada</p>
+              <div class="h-52 relative flex items-center justify-center">
+                <canvas id="chartLineas"></canvas>
+              </div>
+              <div class="grid grid-cols-2 gap-2 mt-4 text-xs text-slate-300">
+                <div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-red-500"></span> Camisería (42%)</div>
+                <div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span> Pantalón Trabajo (28%)</div>
+                <div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> Calzado Ind. (18%)</div>
+                <div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> EPP & Otros (12%)</div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
 
-  </main>
+        <!-- ==================== VISTA 2: PERSONAL & OPERARIOS ==================== -->
+        <div id="view-personal" class="hidden space-y-4">
+          <div class="bg-slate-900 p-5 rounded-xl border border-slate-800">
+            <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-3 mb-4">
+              <div>
+                <h3 class="font-bold text-white text-base">Monitoreo de Personal & Producción Individual</h3>
+                <p class="text-xs text-slate-400">Control de asistencia en tiempo real, líneas asignadas y rendimiento horario por operario.</p>
+              </div>
+              <div class="flex items-center gap-2">
+                <input type="text" id="filtroPersonal" onkeyup="filtrarOperarios()" placeholder="Filtrar por nombre o puesto..." class="bg-slate-950 border border-slate-800 px-3 py-1.5 rounded-lg text-xs text-slate-200">
+              </div>
+            </div>
 
-  <!-- FOOTER -->
-  <footer class="bg-slate-800 border-t border-slate-700 py-4 text-xs text-slate-400">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-2">
-      <div>
-        <strong>CONFECAT S.A. Operations Prototype</strong> · Propuesta Técnica de Automatización
-      </div>
-      <div>
-        Diseñado y codificado por <strong>Lucas Yoel Heredia</strong> · Catamarca · <a href="mailto:lheredia281@gmail.com" class="text-red-400 hover:underline">lheredia281@gmail.com</a>
-      </div>
-    </div>
-  </footer>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs text-slate-300">
+                <thead class="bg-slate-950/80 uppercase font-bold text-slate-400 text-[10px] border-b border-slate-800">
+                  <tr>
+                    <th class="py-3 px-4">Operario / Legajo</th>
+                    <th class="py-3 px-4">Sector / Línea</th>
+                    <th class="py-3 px-4">Ingreso</th>
+                    <th class="py-3 px-4 text-center">Unidades Confeccionadas</th>
+                    <th class="py-3 px-4 text-center">Eficiencia %</th>
+                    <th class="py-3 px-4 text-center">Estado</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-800" id="tablaPersonalBody">
+                  <!-- Generado por JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
 
-  <!-- SCRIPT LOGIC -->
+        <!-- ==================== VISTA 3: STOCK & PAÑOL ==================== -->
+        <div id="view-stock" class="hidden space-y-4">
+          <div class="bg-slate-900 p-5 rounded-xl border border-slate-800">
+            <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-3 mb-4">
+              <div>
+                <h3 class="font-bold text-white text-base">Control de Insumos & Pañol Central</h3>
+                <p class="text-xs text-slate-400">Cálculo automatizado de punto de reposición (ROP) para evitar quiebres de línea.</p>
+              </div>
+              <div class="flex items-center gap-2">
+                <input type="text" id="filtroStock" onkeyup="filtrarInsumos()" placeholder="Buscar tela, hilo, avíos..." class="bg-slate-950 border border-slate-800 px-3 py-1.5 rounded-lg text-xs text-slate-200">
+                <button onclick="registrarNuevoMovimiento()" class="bg-red-600 hover:bg-red-500 text-white font-semibold text-xs px-3 py-1.5 rounded-lg transition flex items-center gap-1">
+                  <i data-lucide="plus" class="w-3.5 h-3.5"></i> Registrar Movimiento
+                </button>
+              </div>
+            </div>
+
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs text-slate-300">
+                <thead class="bg-slate-950/80 uppercase font-bold text-slate-400 text-[10px] border-b border-slate-800">
+                  <tr>
+                    <th class="py-3 px-4">Código</th>
+                    <th class="py-3 px-4">Insumo</th>
+                    <th class="py-3 px-4">Familia</th>
+                    <th class="py-3 px-4 text-right">Stock Actual</th>
+                    <th class="py-3 px-4 text-right">Punto Reorden</th>
+                    <th class="py-3 px-4 text-center">Condición</th>
+                    <th class="py-3 px-4 text-center">Acción Rápida</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-800" id="tablaStockBody">
+                  <!-- Generado por JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==================== VISTA 4: MAQUINARIA ==================== -->
+        <div id="view-mantenimiento" class="hidden space-y-4">
+          <div class="bg-slate-900 p-5 rounded-xl border border-slate-800">
+            <div class="flex justify-between items-center mb-4">
+              <div>
+                <h3 class="font-bold text-white text-base">Parque de Maquinaria Textil (Telemetría de Servicio)</h3>
+                <p class="text-xs text-slate-400">Algoritmo de alerta preventiva por horas de ciclo motor (Cada 250hs).</p>
+              </div>
+              <span class="text-xs bg-slate-800 border border-slate-700 px-3 py-1 rounded-full text-slate-300">
+                Línea Recta / Overlock / Corte / Terminado
+              </span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="gridMaquinas">
+              <!-- Generado por JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- ==================== VISTA 5: REPORTES & APPS SCRIPT ==================== -->
+        <div id="view-reportes" class="hidden space-y-4">
+          <div class="bg-slate-900 p-5 rounded-xl border border-slate-800">
+            <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-3 mb-4">
+              <div>
+                <h3 class="font-bold text-white text-base">Motor de Automatización de Reportes Gerenciales</h3>
+                <p class="text-xs text-slate-400">Simulación del script que reemplaza 3 horas diarias de consolidación manual en Excel.</p>
+              </div>
+              <button onclick="exportarCSVReal()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-4 py-2 rounded-lg transition flex items-center gap-2 shadow">
+                <i data-lucide="download" class="w-4 h-4"></i> Generar & Descargar Auditoría CSV
+              </button>
+            </div>
+
+            <!-- TERMINAL CODE PREVIEW -->
+            <div class="bg-slate-950 rounded-lg p-4 font-mono text-xs text-emerald-400 border border-slate-800 space-y-1">
+              <p class="text-slate-500">// Módulo de Automatización CONFECAT S.A. - Desarrollado por Lucas Heredia</p>
+              <p><span class="text-purple-400">const</span> <span class="text-blue-400">generarReporteDiario</span> = async () => {</p>
+              <p class="pl-4">const turno = <span class="text-amber-300">"Planta Catamarca - Turno Mañana"</span>;</p>
+              <p class="pl-4">const metricas = await Database.<span class="text-blue-400">obtenerBalance</span>({ plantaId: <span class="text-amber-300">'CAT-01'</span> });</p>
+              <p class="pl-4">Spreadsheet.<span class="text-blue-400">guardarSnapshot</span>(metricas);</p>
+              <p class="pl-4">Logger.<span class="text-blue-400">log</span>(<span class="text-amber-300">`[OK] 1,492 prendas auditadas. Eficiencia global: 95.2%`</span>);</p>
+              <p>};</p>
+            </div>
+
+            <div class="mt-4 border-t border-slate-800 pt-4">
+              <h4 class="text-xs font-bold text-slate-300 uppercase mb-2">Consola de Eventos del Servidor:</h4>
+              <div id="consolaOutput" class="bg-slate-950 p-3 rounded text-xs font-mono text-slate-300 h-28 overflow-y-auto border border-slate-800">
+                [18/10/2026 17:00:00] [SYSTEM] Telemetría activa en 31 terminales Jack & Siruba.<br>
+                [18/10/2026 17:02:11] [OPERARIOS] 48 operarios registrados en planilla de asistencia biométrica.<br>
+                [18/10/2026 17:05:30] [STOCK] Alerta automática de reorden enviada a compras: Hilo 20 Reforzado.<br>
+                [18/10/2026 17:06:00] [AUDITORIA] Sincronización exitosa con servidor PostgreSQL.
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- FOOTER DEL DASHBOARD -->
+      <footer class="bg-slate-900 border-t border-slate-800 px-6 py-3 text-xs text-slate-400 flex flex-col sm:flex-row justify-between items-center gap-2">
+        <div>
+          <strong>CONFECAT Operations Core</strong> · Demostración técnica de Arquitectura de Sistemas
+        </div>
+        <div>
+          Desarrollado íntegramente por <strong>Lucas Yoel Heredia</strong> · Catamarca · <a href="mailto:lheredia281@gmail.com" class="text-red-400 hover:underline">lheredia281@gmail.com</a>
+        </div>
+      </footer>
+
+    </main>
+
+  </div>
+
+  <!-- JAVASCRIPT LOGIC -->
   <script>
-    // Reloj en tiempo real
-    setInterval(() => {
-      const now = new Date();
-      document.getElementById('liveClock').innerText = now.toLocaleDateString() + ' ' + now.toLocaleTimeString();
-    }, 1000);
-
-    // Navegación de pestañas
-    function switchTab(tab) {
-      ['dashboard', 'panol', 'maquinas', 'reportes'].forEach(t => {
-        document.getElementById('view-' + t).classList.add('hidden');
-        document.getElementById('tab-' + t).classList.remove('tab-active', 'text-slate-100');
-        document.getElementById('tab-' + t).classList.add('text-slate-400');
+    // NAVEGACIÓN ENTRE SECCIONES
+    function navigate(viewId) {
+      // Ocultar todas las vistas
+      ['telemetria', 'personal', 'stock', 'mantenimiento', 'reportes'].forEach(v => {
+        const el = document.getElementById('view-' + v);
+        if (el) el.classList.add('hidden');
       });
-      document.getElementById('view-' + tab).classList.remove('hidden');
-      document.getElementById('tab-' + tab).classList.add('tab-active');
-      document.getElementById('tab-' + tab).classList.remove('text-slate-400');
+
+      // Quitar clase activa a botones
+      document.querySelectorAll('aside button').forEach(b => {
+        b.classList.remove('nav-item-active');
+        b.classList.add('text-slate-400');
+      });
+
+      // Mostrar vista seleccionada
+      const target = document.getElementById('view-' + viewId);
+      if (target) {
+        target.classList.remove('hidden');
+      } else {
+        // Redirigir a telemetria si es subsección visual
+        document.getElementById('view-telemetria').classList.remove('hidden');
+      }
+
+      const activeBtn = document.getElementById('nav-' + viewId);
+      if (activeBtn) {
+        activeBtn.classList.add('nav-item-active');
+        activeBtn.classList.remove('text-slate-400');
+      }
+
+      // Actualizar Título
+      const titulos = {
+        'telemetria': { t: 'Telemetría de Planta & Indicadores Clave (KPIs)', d: 'Monitoreo en tiempo real de producción, disponibilidad de maquinaria y balance de masa.' },
+        'personal': { t: 'Control de Personal & Rendimiento por Operario', d: 'Seguimiento de asistencia, asignación a líneas textiles y prendas confeccionadas por hora.' },
+        'stock': { t: 'Gestión de Pañol Central & Abastecimiento', d: 'Inventario de telas, hilos y avíos con sistema de cálculo de punto de reorden.' },
+        'mantenimiento': { t: 'Mantenimiento Preventivo & Parque de Máquinas', d: 'Alertas automáticas por horas de motor acumuladas para evitar paradas en línea.' },
+        'reportes': { t: 'Motor de Automatización de Reportes Gerenciales', d: 'Procesamiento masivo de datos con exportación en tiempo real a CSV/Excel.' }
+      };
+
+      if (titulos[viewId]) {
+        document.getElementById('pageTitle').innerHTML = titulos[viewId].t;
+        document.getElementById('pageDesc').innerText = titulos[viewId].d;
+      }
     }
 
-    // Datos de Stock
-    const stockItems = [
-      { cod: "TX-TELA-01", desc: "Tela Gabardina Pesada 8oz Azul Marino", cat: "Tejidos", stock: 1420, reorden: 500, unidad: "Metros" },
-      { cod: "TX-TELA-02", desc: "Tela Ripstop Antidesgarro Verde Oliva", cat: "Tejidos", stock: 180, reorden: 300, unidad: "Metros" },
-      { cod: "IN-HILO-40", desc: "Cono Hilo Poliéster 100% 40/2 Negro", cat: "Hilos", stock: 48, reorden: 20, unidad: "Conos" },
-      { cod: "IN-HILO-20", desc: "Cono Hilo Alta Tenacidad Reforzado", cat: "Hilos", stock: 8, reorden: 15, unidad: "Conos" },
-      { cod: "AV-BOT-24", desc: "Botón Pasta 4 Agujeros 24L Blanco", cat: "Avíos", stock: 5200, reorden: 2000, unidad: "Unidades" },
-      { cod: "AV-CIE-18", desc: "Cierre Diente de Perro Bronce 18cm", cat: "Avíos", stock: 110, reorden: 250, unidad: "Unidades" },
-      { cod: "MQ-AGU-14", desc: "Agujas Máquina Recta Groz-Beckert 90/14", cat: "Repuestos", stock: 35, reorden: 50, unidad: "Packs" }
+    // BASE DE DATOS LOCAL: OPERARIOS
+    const operarios = [
+      { leg: "OP-104", nom: "María Romero", sector: "Línea Confección Camisas", ingreso: "06:00", unidades: 142, meta: 130, estado: "Óptimo" },
+      { leg: "OP-108", nom: "Carlos Bazán", sector: "Línea Pantalón Trabajo", ingreso: "06:00", unidades: 118, meta: 120, estado: "Normal" },
+      { leg: "OP-115", nom: "Soledad Vega", sector: "Mesa de Corte Textil", ingreso: "06:05", unidades: 310, meta: 280, estado: "Óptimo" },
+      { leg: "OP-122", nom: "Jorge Nieva", sector: "Línea Calzado Industrial", ingreso: "05:58", unidades: 96, meta: 95, estado: "Normal" },
+      { leg: "OP-131", nom: "Ana Gómez", sector: "Terminación y Ojalado", ingreso: "06:00", unidades: 185, meta: 160, estado: "Óptimo" },
+      { leg: "OP-145", nom: "Luis Carrizo", sector: "Taller Mantenimiento", ingreso: "06:00", unidades: "-", meta: "-", estado: "Guardia" }
     ];
 
-    function renderStock() {
-      const tbody = document.getElementById('stockBody');
+    function renderOperarios() {
+      const tbody = document.getElementById('tablaPersonalBody');
       tbody.innerHTML = '';
-      stockItems.forEach((item, index) => {
-        const esBajo = item.stock <= item.reorden;
-        const badge = esBajo 
-          ? `<span class="bg-red-500/20 text-red-400 border border-red-500/30 px-2 py-0.5 rounded font-bold text-[10px]">REORDEN CRÍTICO</span>`
-          : `<span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded font-bold text-[10px]">STOCK ÓPTIMO</span>`;
-        
+      operarios.forEach(o => {
+        const pct = o.meta !== "-" ? Math.round((o.unidades / o.meta) * 100) : 100;
+        const color = pct >= 100 ? 'text-emerald-400' : 'text-amber-400';
         tbody.innerHTML += `
-          <tr class="hover:bg-slate-700/30 transition">
-            <td class="py-2.5 px-4 font-mono font-bold text-slate-200">${item.cod}</td>
-            <td class="py-2.5 px-4">${item.desc}</td>
-            <td class="py-2.5 px-4 text-slate-400">${item.cat}</td>
-            <td class="py-2.5 px-4 text-right font-bold ${esBajo ? 'text-red-400' : 'text-slate-100'}">${item.stock} ${item.unidad}</td>
-            <td class="py-2.5 px-4 text-right text-slate-400">${item.reorden} ${item.unidad}</td>
-            <td class="py-2.5 px-4 text-center">${badge}</td>
+          <tr class="hover:bg-slate-800/40 transition">
+            <td class="py-2.5 px-4 font-semibold text-white">
+              ${o.nom} <span class="text-[10px] text-slate-500 font-mono ml-1">(${o.leg})</span>
+            </td>
+            <td class="py-2.5 px-4 text-slate-300">${o.sector}</td>
+            <td class="py-2.5 px-4 font-mono text-slate-400">${o.ingreso} hs</td>
+            <td class="py-2.5 px-4 text-center font-bold text-slate-100">${o.unidades}</td>
+            <td class="py-2.5 px-4 text-center font-bold ${color}">${pct}%</td>
             <td class="py-2.5 px-4 text-center">
-              <button onclick="ajustarStock(${index})" class="bg-slate-700 hover:bg-slate-600 px-2 py-1 rounded text-[11px] text-slate-200 transition">Movimiento</button>
+              <span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2 py-0.5 rounded text-[10px] font-bold">${o.estado}</span>
             </td>
           </tr>
         `;
       });
     }
 
-    function ajustarStock(index) {
-      const cant = prompt(`Registrar ingreso/egreso para ${stockItems[index].desc} (Ej: 50 o -20):`);
-      if (cant && !isNaN(cant)) {
-        stockItems[index].stock += parseInt(cant);
-        renderStock();
-      }
-    }
-
-    function filtrarTabla() {
-      const input = document.getElementById("busquedaStock").value.toLowerCase();
-      const rows = document.querySelectorAll("#stockBody tr");
-      rows.forEach(r => {
-        r.style.display = r.innerText.toLowerCase().includes(input) ? "" : "none";
+    function filtrarOperarios() {
+      const q = document.getElementById('filtroPersonal').value.toLowerCase();
+      document.querySelectorAll('#tablaPersonalBody tr').forEach(r => {
+        r.style.display = r.innerText.toLowerCase().includes(q) ? '' : 'none';
       });
     }
 
-    // Datos de Máquinas
+    // BASE DE DATOS: INSUMOS
+    const insumos = [
+      { cod: "TX-TELA-01", desc: "Tela Gabardina Pesada 8oz Azul Marino", cat: "Tejidos", stock: 1420, reorden: 500, unidad: "Metros" },
+      { cod: "TX-TELA-02", desc: "Tela Ripstop Antidesgarro Verde Oliva", cat: "Tejidos", stock: 180, reorden: 300, unidad: "Metros" },
+      { cod: "IN-HILO-40", desc: "Cono Hilo Poliéster 100% 40/2 Negro", cat: "Hilos", stock: 48, reorden: 20, unidad: "Conos" },
+      { cod: "IN-HILO-20", desc: "Cono Hilo Alta Tenacidad Reforzado", cat: "Hilos", stock: 8, reorden: 15, unidad: "Conos" },
+      { cod: "AV-BOT-24", desc: "Botón Pasta 4 Agujeros 24L Blanco", cat: "Avíos", stock: 5200, reorden: 2000, unidad: "Unidades" },
+      { cod: "AV-CIE-18", desc: "Cierre Diente de Perro Bronce 18cm", cat: "Avíos", stock: 110, reorden: 250, unidad: "Unidades" }
+    ];
+
+    function renderInsumos() {
+      const tbody = document.getElementById('tablaStockBody');
+      tbody.innerHTML = '';
+      insumos.forEach((i, idx) => {
+        const bajo = i.stock <= i.reorden;
+        const badge = bajo 
+          ? `<span class="bg-red-500/20 text-red-400 border border-red-500/30 px-2 py-0.5 rounded font-bold text-[10px]">PEDIR REORDEN</span>`
+          : `<span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded font-bold text-[10px]">ÓPTIMO</span>`;
+        
+        tbody.innerHTML += `
+          <tr class="hover:bg-slate-800/40 transition">
+            <td class="py-2.5 px-4 font-mono font-bold text-slate-300">${i.cod}</td>
+            <td class="py-2.5 px-4 text-white font-medium">${i.desc}</td>
+            <td class="py-2.5 px-4 text-slate-400">${i.cat}</td>
+            <td class="py-2.5 px-4 text-right font-bold ${bajo ? 'text-red-400' : 'text-slate-100'}">${i.stock} ${i.unidad}</td>
+            <td class="py-2.5 px-4 text-right text-slate-400 font-mono">${i.reorden}</td>
+            <td class="py-2.5 px-4 text-center">${badge}</td>
+            <td class="py-2.5 px-4 text-center">
+              <button onclick="ajustarStockRapido(${idx})" class="bg-slate-800 hover:bg-slate-700 border border-slate-700 px-2.5 py-1 rounded text-slate-200 text-[11px] transition">Editar Stock</button>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    function ajustarStockRapido(idx) {
+      const cant = prompt(`Modificar stock para ${insumos[idx].desc} (Cantidad a sumar o restar):`);
+      if (cant && !isNaN(cant)) {
+        insumos[idx].stock += parseInt(cant);
+        renderInsumos();
+      }
+    }
+
+    function registrarNuevoMovimiento() {
+      const desc = prompt("Nombre del nuevo insumo a ingresar:");
+      if (desc) {
+        insumos.push({ cod: "TX-NEW-" + (insumos.length + 1), desc: desc, cat: "General", stock: 100, reorden: 50, unidad: "Unidades" });
+        renderInsumos();
+        alert("Insumo dado de alta en pañol.");
+      }
+    }
+
+    function filtrarInsumos() {
+      const q = document.getElementById('filtroStock').value.toLowerCase();
+      document.querySelectorAll('#tablaStockBody tr').forEach(r => {
+        r.style.display = r.innerText.toLowerCase().includes(q) ? '' : 'none';
+      });
+    }
+
+    // BASE DE DATOS: MÁQUINAS
     const maquinas = [
-      { id: "RECTA-01", tipo: "Máquina Recta Industrial Jack A4", sector: "Confección A", hs: 242, limite: 250, estado: "Próximo Service" },
+      { id: "RECTA-01", tipo: "Máquina Recta Industrial Jack A4", sector: "Confección A", hs: 245, limite: 250, estado: "Service Inminente" },
       { id: "OVER-04", tipo: "Overlock 5 Hilos Siruba 747K", sector: "Confección B", hs: 110, limite: 250, estado: "Operativa" },
-      { id: "COLL-02", tipo: "Colladeta Tapacostura Yamato", sector: "Confección A", hs: 265, limite: 250, estado: "Vencido en Taller" },
-      { id: "CORT-01", tipo: "Cortadora Vertical Eastman 8\"", sector: "Mesa de Corte", hs: 80, limite: 300, estado: "Operativa" },
-      { id: "OJAL-01", tipo: "Ojaladora Automática Juki LBH", sector: "Terminación", hs: 195, limite: 250, estado: "Operativa" },
-      { id: "PEGA-03", tipo: "Pegadora de Botones Electrónica Brother", sector: "Terminación", hs: 42, limite: 200, estado: "Operativa" }
+      { id: "COLL-02", tipo: "Colladeta Tapacostura Yamato", sector: "Confección A", hs: 268, limite: 250, estado: "Vencido en Taller" },
+      { id: "CORT-01", tipo: "Cortadora Vertical Eastman 8\"", sector: "Mesa de Corte", hs: 85, limite: 300, estado: "Operativa" },
+      { id: "OJAL-01", tipo: "Ojaladora Automática Juki LBH", sector: "Terminación", hs: 198, limite: 250, estado: "Operativa" },
+      { id: "PEGA-03", tipo: "Pegadora de Botones Electrónica Brother", sector: "Terminación", hs: 45, limite: 200, estado: "Operativa" }
     ];
 
     function renderMaquinas() {
-      const grid = document.getElementById('maquinasGrid');
+      const grid = document.getElementById('gridMaquinas');
       grid.innerHTML = '';
       maquinas.forEach(m => {
         const esVencido = m.hs >= m.limite;
-        const color = esVencido ? 'border-red-500 bg-red-950/20' : (m.hs > m.limite * 0.9 ? 'border-amber-500 bg-amber-950/20' : 'border-slate-700 bg-slate-900/50');
-        const badgeColor = esVencido ? 'bg-red-500 text-white' : (m.hs > m.limite * 0.9 ? 'bg-amber-500 text-slate-900' : 'bg-emerald-500/20 text-emerald-400');
+        const color = esVencido ? 'border-red-500/60 bg-red-950/20' : (m.hs > m.limite * 0.9 ? 'border-amber-500/60 bg-amber-950/20' : 'border-slate-800 bg-slate-900/60');
+        const badgeColor = esVencido ? 'bg-red-500 text-white' : (m.hs > m.limite * 0.9 ? 'bg-amber-500 text-slate-950' : 'bg-emerald-500/20 text-emerald-400');
         
         grid.innerHTML += `
-          <div class="p-4 rounded-xl border ${color} relative flex flex-col justify-between">
+          <div class="p-4 rounded-xl border ${color} relative flex flex-col justify-between shadow-sm">
             <div>
               <div class="flex justify-between items-start mb-2">
                 <span class="font-mono font-bold text-sm text-white">${m.id}</span>
@@ -400,16 +655,16 @@
               <h4 class="font-semibold text-xs text-slate-200">${m.tipo}</h4>
               <p class="text-[11px] text-slate-400 mt-0.5">${m.sector}</p>
             </div>
-            <div class="mt-4 pt-3 border-t border-slate-700/50 flex justify-between items-center text-xs">
-              <span class="text-slate-400">Horas de Motor: <strong class="text-white">${m.hs}hs / ${m.limite}hs</strong></span>
-              <button onclick="resetService('${m.id}')" class="text-[11px] bg-slate-800 hover:bg-slate-700 border border-slate-600 px-2 py-1 rounded text-slate-200">Reset Service</button>
+            <div class="mt-4 pt-3 border-t border-slate-800 flex justify-between items-center text-xs">
+              <span class="text-slate-400">Horas: <strong class="text-white">${m.hs}hs / ${m.limite}hs</strong></span>
+              <button onclick="resetearService('${m.id}')" class="text-[11px] bg-slate-800 hover:bg-slate-700 border border-slate-700 px-2 py-1 rounded text-slate-200 transition">Reset Horas</button>
             </div>
           </div>
         `;
       });
     }
 
-    function resetService(id) {
+    function resetearService(id) {
       const maq = maquinas.find(m => m.id === id);
       if (maq) {
         maq.hs = 0;
@@ -418,7 +673,7 @@
       }
     }
 
-    // Inicializar Gráficos
+    // GRÁFICOS INTERACTIVOS (CHART.JS)
     let chartProd;
     function initCharts() {
       const ctxProd = document.getElementById('chartProduccion').getContext('2d');
@@ -428,13 +683,13 @@
           labels: ['06:00', '08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00'],
           datasets: [
             {
-              label: 'Producción Real (Prendas)',
-              data: [120, 240, 480, 710, 940, 1190, 1380, 1482],
+              label: 'Prendas Reales Fabricadas',
+              data: [120, 240, 490, 720, 950, 1210, 1390, 1492],
               borderColor: '#dc2626',
-              backgroundColor: 'rgba(220, 38, 38, 0.1)',
+              backgroundColor: 'rgba(220, 38, 38, 0.12)',
               fill: true,
-              tension: 0.3,
-              borderWidth: 2
+              tension: 0.35,
+              borderWidth: 2.5
             },
             {
               label: 'Meta Programada',
@@ -452,8 +707,8 @@
           maintainAspectRatio: false,
           plugins: { legend: { labels: { color: '#cbd5e1', font: { size: 11 } } } },
           scales: {
-            x: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(148, 163, 184, 0.1)' } },
-            y: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(148, 163, 184, 0.1)' } }
+            x: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(148, 163, 184, 0.08)' } },
+            y: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(148, 163, 184, 0.08)' } }
           }
         }
       });
@@ -477,31 +732,34 @@
       });
     }
 
-    function simularProduccion() {
-      const ult = chartProd.data.datasets[0].data;
-      const incremento = Math.floor(Math.random() * 30) + 15;
-      ult[ult.length - 1] += incremento;
-      document.getElementById('kpiPrendas').innerText = ult[ult.length - 1].toLocaleString();
+    // PULSO IOT INTERACTIVO
+    function simularPulsoIoT() {
+      const arr = chartProd.data.datasets[0].data;
+      const incremento = Math.floor(Math.random() * 35) + 15;
+      arr[arr.length - 1] += incremento;
+      document.getElementById('kpiPrendas').innerText = arr[arr.length - 1].toLocaleString();
       chartProd.update();
-      alert(`Simulación IoT recibida: +${incremento} prendas registradas en línea de confección.`);
+      alert(`[IoT Telemetría CONFECAT]: Recepción de pulso en línea Confección A (+${incremento} prendas contabilizadas).`);
     }
 
-    function generarReporteSim() {
-      const csvContent = "data:text/csv;charset=utf-8," 
-        + "Codigo,Descripcion,Stock,Reorden,Estado\n"
-        + stockItems.map(e => `${e.cod},"${e.desc}",${e.stock},${e.reorden},${e.stock <= e.reorden ? 'CRITICO':'OPTIMO'}`).join("\n");
-      const encodedUri = encodeURI(csvContent);
-      const link = document.createElement("a");
-      link.setAttribute("href", encodedUri);
-      link.setAttribute("download", "reporte_planta_confecat.csv");
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+    // EXPORTACIÓN A CSV
+    function exportarCSVReal() {
+      const csv = "Legajo,Operario,Sector,UnidadesConfeccionadas,Estado\n" + 
+        operarios.map(o => `${o.leg},"${o.nom}","${o.sector}",${o.unidades},"${o.estado}"`).join("\n");
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `auditoria_confecat_planta_${new Date().toISOString().slice(0,10)}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
     }
 
     window.onload = () => {
       lucide.createIcons();
-      renderStock();
+      renderOperarios();
+      renderInsumos();
       renderMaquinas();
       initCharts();
     };
