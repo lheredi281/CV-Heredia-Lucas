@@ -50,6 +50,17 @@
       border-left: 3px solid #dc2626;
       font-weight: 600;
     }
+
+    /* Fix dropdown selects en tema oscuro */
+    select option {
+      background-color: #0f172a !important;
+      color: #f8fafc !important;
+      padding: 6px 10px;
+    }
+    select option:checked {
+      background-color: #2563eb !important;
+      color: #ffffff !important;
+    }
   </style>
 </head>
 <body class="h-full flex flex-col font-sans text-slate-100 bg-slate-950 overflow-hidden">
@@ -430,6 +441,141 @@
           </div>
         </div>
 
+        <!-- ==================== VISTA: LÍNEAS DE CONFECCIÓN ==================== -->
+        <div id="view-lineas" class="hidden space-y-4">
+          <div class="bg-slate-900 p-5 rounded-xl border border-slate-800">
+            <div class="flex justify-between items-center mb-4">
+              <div>
+                <h3 class="font-bold text-white text-base">Estado Operativo por Línea de Confección</h3>
+                <p class="text-xs text-slate-400">Balance de carga, velocidad de avance y artículos en proceso (WIP).</p>
+              </div>
+              <span class="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1 rounded-full font-bold">4 Líneas Activas</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="p-4 rounded-xl border border-slate-800 bg-slate-950/60">
+                <div class="flex justify-between items-center mb-2">
+                  <span class="font-bold text-white text-sm">Línea 01 · Camisería Industrial</span>
+                  <span class="bg-emerald-500/20 text-emerald-400 text-[10px] font-bold px-2 py-0.5 rounded">96% Eficiencia</span>
+                </div>
+                <p class="text-xs text-slate-400 mb-3">14 operarios · 12 máquinas Jack A4 en línea</p>
+                <div class="space-y-1.5 text-xs text-slate-300">
+                  <div class="flex justify-between"><span>Producción actual:</span> <strong class="text-white">620 / 650 prendas</strong></div>
+                  <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden"><div class="bg-red-500 h-full rounded-full" style="width: 95%;"></div></div>
+                </div>
+              </div>
+
+              <div class="p-4 rounded-xl border border-slate-800 bg-slate-950/60">
+                <div class="flex justify-between items-center mb-2">
+                  <span class="font-bold text-white text-sm">Línea 02 · Pantalón de Trabajo & Cargo</span>
+                  <span class="bg-emerald-500/20 text-emerald-400 text-[10px] font-bold px-2 py-0.5 rounded">92% Eficiencia</span>
+                </div>
+                <p class="text-xs text-slate-400 mb-3">16 operarios · 14 máquinas Overlock & Recta</p>
+                <div class="space-y-1.5 text-xs text-slate-300">
+                  <div class="flex justify-between"><span>Producción actual:</span> <strong class="text-white">418 / 450 prendas</strong></div>
+                  <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden"><div class="bg-blue-500 h-full rounded-full" style="width: 92%;"></div></div>
+                </div>
+              </div>
+
+              <div class="p-4 rounded-xl border border-slate-800 bg-slate-950/60">
+                <div class="flex justify-between items-center mb-2">
+                  <span class="font-bold text-white text-sm">Línea 03 · Calzado de Seguridad & Borcegos</span>
+                  <span class="bg-emerald-500/20 text-emerald-400 text-[10px] font-bold px-2 py-0.5 rounded">94% Eficiencia</span>
+                </div>
+                <p class="text-xs text-slate-400 mb-3">10 operarios · Inyectora & Aparado</p>
+                <div class="space-y-1.5 text-xs text-slate-300">
+                  <div class="flex justify-between"><span>Producción actual:</span> <strong class="text-white">268 / 280 pares</strong></div>
+                  <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden"><div class="bg-amber-500 h-full rounded-full" style="width: 94%;"></div></div>
+                </div>
+              </div>
+
+              <div class="p-4 rounded-xl border border-slate-800 bg-slate-950/60">
+                <div class="flex justify-between items-center mb-2">
+                  <span class="font-bold text-white text-sm">Línea 04 · Indumentaria EPP & Térmica</span>
+                  <span class="bg-emerald-500/20 text-emerald-400 text-[10px] font-bold px-2 py-0.5 rounded">98% Eficiencia</span>
+                </div>
+                <p class="text-xs text-slate-400 mb-3">8 operarios · Costura sellada & Cintas reflectivas</p>
+                <div class="space-y-1.5 text-xs text-slate-300">
+                  <div class="flex justify-between"><span>Producción actual:</span> <strong class="text-white">186 / 190 prendas</strong></div>
+                  <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden"><div class="bg-emerald-500 h-full rounded-full" style="width: 98%;"></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==================== VISTA: COMPRAS & PROVEEDORES ==================== -->
+        <div id="view-compras" class="hidden space-y-4">
+          <div class="bg-slate-900 p-5 rounded-xl border border-slate-800">
+            <div class="flex justify-between items-center mb-4">
+              <div>
+                <h3 class="font-bold text-white text-base">Circuito de Compras & Reabastecimiento</h3>
+                <p class="text-xs text-slate-400">Solicitudes emitidas automáticamente por algoritmo de stock crítico.</p>
+              </div>
+              <button onclick="alert('Orden agrupada generada exitosamente.')" class="bg-red-600 hover:bg-red-500 text-white font-semibold text-xs px-3 py-1.5 rounded-lg transition shadow">
+                Emitir Orden Agrupada
+              </button>
+            </div>
+
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs text-slate-300">
+                <thead class="bg-slate-950/80 uppercase font-bold text-slate-400 text-[10px] border-b border-slate-800">
+                  <tr>
+                    <th class="py-3 px-4">N° Solicitud</th>
+                    <th class="py-3 px-4">Insumo Requerido</th>
+                    <th class="py-3 px-4">Cantidad</th>
+                    <th class="py-3 px-4">Proveedor</th>
+                    <th class="py-3 px-4 text-center">Urgencia</th>
+                    <th class="py-3 px-4 text-center">Estado</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-800">
+                  <tr class="hover:bg-slate-800/40 transition">
+                    <td class="py-2.5 px-4 font-mono font-bold text-white">SC-4091</td>
+                    <td class="py-2.5 px-4">Cono Hilo Alta Tenacidad Reforzado</td>
+                    <td class="py-2.5 px-4 font-bold text-slate-100">50 Conos</td>
+                    <td class="py-2.5 px-4 text-slate-300">Textil Hilados S.A.</td>
+                    <td class="py-2.5 px-4 text-center"><span class="bg-red-500/20 text-red-400 border border-red-500/30 px-2 py-0.5 rounded text-[10px] font-bold">ALTA</span></td>
+                    <td class="py-2.5 px-4 text-center"><span class="text-amber-400 font-medium">Cotización Aprobada</span></td>
+                  </tr>
+                  <tr class="hover:bg-slate-800/40 transition">
+                    <td class="py-2.5 px-4 font-mono font-bold text-white">SC-4092</td>
+                    <td class="py-2.5 px-4">Cierre Diente de Perro Bronce 18cm</td>
+                    <td class="py-2.5 px-4 font-bold text-slate-100">1,000 Unidades</td>
+                    <td class="py-2.5 px-4 text-slate-300">Avíos & Cierres Arg</td>
+                    <td class="py-2.5 px-4 text-center"><span class="bg-red-500/20 text-red-400 border border-red-500/30 px-2 py-0.5 rounded text-[10px] font-bold">ALTA</span></td>
+                    <td class="py-2.5 px-4 text-center"><span class="text-blue-400 font-medium">En Despacho</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==================== VISTA: AUDITORÍA & LOGS ==================== -->
+        <div id="view-auditoria" class="hidden space-y-4">
+          <div class="bg-slate-900 p-5 rounded-xl border border-slate-800">
+            <div class="flex justify-between items-center mb-4">
+              <div>
+                <h3 class="font-bold text-white text-base">Registro Inalterable de Auditoría & Seguridad RBAC</h3>
+                <p class="text-xs text-slate-400">Trazabilidad de cambios, accesos y eventos de producción.</p>
+              </div>
+              <span class="text-xs font-mono text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded border border-emerald-500/20">SHA-256 Logs Active</span>
+            </div>
+
+            <div class="space-y-2 font-mono text-xs">
+              <div class="p-3 bg-slate-950 rounded border border-slate-800 flex justify-between items-center">
+                <div><span class="text-slate-500">[18/10 17:15:02]</span> <span class="text-emerald-400">USER_LOGIN:</span> <span class="text-slate-200">Lucas Heredia autenticado con rol Administrador de Sistemas.</span></div>
+                <span class="text-slate-500 text-[10px]">IP 190.225.x.x</span>
+              </div>
+              <div class="p-3 bg-slate-950 rounded border border-slate-800 flex justify-between items-center">
+                <div><span class="text-slate-500">[18/10 17:10:44]</span> <span class="text-amber-400">STOCK_ALERT:</span> <span class="text-slate-200">Disparo automático ROP por umbral menor a 15 unidades en Hilo 20.</span></div>
+                <span class="text-slate-500 text-[10px]">Service Daemon</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- ==================== VISTA 5: REPORTES & APPS SCRIPT ==================== -->
         <div id="view-reportes" class="hidden space-y-4">
           <div class="bg-slate-900 p-5 rounded-xl border border-slate-800">
@@ -484,15 +630,20 @@
 
   <!-- JAVASCRIPT LOGIC -->
   <script>
-    // NAVEGACIÓN ENTRE SECCIONES
+    // NAVEGACIÓN ENTRE SECCIONES (SOPORTA TODAS LAS VISTAS)
     function navigate(viewId) {
+      // Normalizar alias de submenú
+      if (viewId === 'rendimiento-operarios') viewId = 'personal';
+
+      const todasLasVistas = ['telemetria', 'lineas', 'personal', 'stock', 'compras', 'mantenimiento', 'reportes', 'auditoria'];
+      
       // Ocultar todas las vistas
-      ['telemetria', 'personal', 'stock', 'mantenimiento', 'reportes'].forEach(v => {
+      todasLasVistas.forEach(v => {
         const el = document.getElementById('view-' + v);
         if (el) el.classList.add('hidden');
       });
 
-      // Quitar clase activa a botones
+      // Quitar clase activa a todos los botones del sidebar
       document.querySelectorAll('aside button').forEach(b => {
         b.classList.remove('nav-item-active');
         b.classList.add('text-slate-400');
@@ -503,28 +654,32 @@
       if (target) {
         target.classList.remove('hidden');
       } else {
-        // Redirigir a telemetria si es subsección visual
         document.getElementById('view-telemetria').classList.remove('hidden');
       }
 
+      // Marcar botón activo
       const activeBtn = document.getElementById('nav-' + viewId);
       if (activeBtn) {
         activeBtn.classList.add('nav-item-active');
         activeBtn.classList.remove('text-slate-400');
       }
 
-      // Actualizar Título
+      // Actualizar Título y Descripción Dinámicos
       const titulos = {
-        'telemetria': { t: 'Telemetría de Planta & Indicadores Clave (KPIs)', d: 'Monitoreo en tiempo real de producción, disponibilidad de maquinaria y balance de masa.' },
-        'personal': { t: 'Control de Personal & Rendimiento por Operario', d: 'Seguimiento de asistencia, asignación a líneas textiles y prendas confeccionadas por hora.' },
-        'stock': { t: 'Gestión de Pañol Central & Abastecimiento', d: 'Inventario de telas, hilos y avíos con sistema de cálculo de punto de reorden.' },
-        'mantenimiento': { t: 'Mantenimiento Preventivo & Parque de Máquinas', d: 'Alertas automáticas por horas de motor acumuladas para evitar paradas en línea.' },
-        'reportes': { t: 'Motor de Automatización de Reportes Gerenciales', d: 'Procesamiento masivo de datos con exportación en tiempo real a CSV/Excel.' }
+        'telemetria': { t: '<i data-lucide="gauge" class="w-5 h-5 text-red-500"></i> Telemetría de Planta & Indicadores Clave (KPIs)', d: 'Monitoreo en tiempo real de producción, disponibilidad de maquinaria y balance de masa.' },
+        'lineas': { t: '<i data-lucide="layers" class="w-5 h-5 text-red-500"></i> Estado Operativo por Líneas de Confección', d: 'Balance de carga, velocidad de avance y artículos en proceso (WIP).' },
+        'personal': { t: '<i data-lucide="users" class="w-5 h-5 text-red-500"></i> Control de Personal & Rendimiento por Operario', d: 'Seguimiento de asistencia, asignación a líneas textiles y prendas confeccionadas por hora.' },
+        'stock': { t: '<i data-lucide="boxes" class="w-5 h-5 text-red-500"></i> Gestión de Pañol Central & Abastecimiento', d: 'Inventario de telas, hilos y avíos con sistema de cálculo de punto de reorden.' },
+        'compras': { t: '<i data-lucide="shopping-cart" class="w-5 h-5 text-red-500"></i> Circuito de Compras & Proveedores', d: 'Solicitudes automáticas de compra por desabastecimiento crítico.' },
+        'mantenimiento': { t: '<i data-lucide="wrench" class="w-5 h-5 text-red-500"></i> Mantenimiento Preventivo & Parque de Máquinas', d: 'Alertas automáticas por horas de motor acumuladas para evitar paradas en línea.' },
+        'reportes': { t: '<i data-lucide="file-spreadsheet" class="w-5 h-5 text-red-500"></i> Motor de Automatización de Reportes Gerenciales', d: 'Procesamiento masivo de datos con exportación en tiempo real a CSV/Excel.' },
+        'auditoria': { t: '<i data-lucide="shield-check" class="w-5 h-5 text-red-500"></i> Registro de Auditoría & Seguridad RBAC', d: 'Trazabilidad inalterable de accesos, alertas y eventos del sistema.' }
       };
 
       if (titulos[viewId]) {
         document.getElementById('pageTitle').innerHTML = titulos[viewId].t;
         document.getElementById('pageDesc').innerText = titulos[viewId].d;
+        lucide.createIcons();
       }
     }
 
