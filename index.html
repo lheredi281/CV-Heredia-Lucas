@@ -366,13 +366,13 @@
           </div>
         </div>
 
-        <!-- ==================== VISTA 2: PERSONAL & OPERARIOS ==================== -->
+        <!-- ==================== VISTA: NÓMINA & ASISTENCIA ==================== -->
         <div id="view-personal" class="hidden space-y-4">
           <div class="bg-slate-900 p-5 rounded-xl border border-slate-800">
             <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-3 mb-4">
               <div>
-                <h3 class="font-bold text-white text-base">Monitoreo de Personal & Producción Individual</h3>
-                <p class="text-xs text-slate-400">Control de asistencia en tiempo real, líneas asignadas y rendimiento horario por operario.</p>
+                <h3 class="font-bold text-white text-base">Control de Asistencia & Nómina de Planta</h3>
+                <p class="text-xs text-slate-400">Registro biométrico en tiempo real, operarios en turno y ausentismo.</p>
               </div>
               <div class="flex items-center gap-2">
                 <input type="text" id="filtroPersonal" onkeyup="filtrarOperarios()" placeholder="Filtrar por nombre o puesto..." class="bg-slate-950 border border-slate-800 px-3 py-1.5 rounded-lg text-xs text-slate-200">
@@ -393,6 +393,82 @@
                 </thead>
                 <tbody class="divide-y divide-slate-800" id="tablaPersonalBody">
                   <!-- Generado por JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==================== VISTA: RENDIMIENTO POR OPERARIO (DEDICADA) ==================== -->
+        <div id="view-rendimiento-operarios" class="hidden space-y-4">
+          <div class="bg-slate-900 p-5 rounded-xl border border-slate-800">
+            <div class="flex justify-between items-center mb-4">
+              <div>
+                <h3 class="font-bold text-white text-base">Rendimiento Individual & Metas por Operario</h3>
+                <p class="text-xs text-slate-400">Curva de productividad horaria, cumplimiento de estándar y premios por producción.</p>
+              </div>
+              <span class="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1 rounded-full font-bold">Top Performance: 109%</span>
+            </div>
+
+            <!-- TOP 3 PRODUCTORES -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+              <div class="p-3.5 bg-slate-950 rounded-xl border border-slate-800 flex items-center gap-3">
+                <div class="w-9 h-9 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-sm border border-amber-500/30">1°</div>
+                <div>
+                  <h4 class="font-bold text-white text-xs">Soledad Vega</h4>
+                  <p class="text-[11px] text-slate-400">Corte Textil · <strong class="text-emerald-400">110% meta</strong></p>
+                </div>
+              </div>
+              <div class="p-3.5 bg-slate-950 rounded-xl border border-slate-800 flex items-center gap-3">
+                <div class="w-9 h-9 rounded-full bg-slate-700 text-slate-300 flex items-center justify-center font-bold text-sm border border-slate-600">2°</div>
+                <div>
+                  <h4 class="font-bold text-white text-xs">María Romero</h4>
+                  <p class="text-[11px] text-slate-400">Camisería · <strong class="text-emerald-400">109% meta</strong></p>
+                </div>
+              </div>
+              <div class="p-3.5 bg-slate-950 rounded-xl border border-slate-800 flex items-center gap-3">
+                <div class="w-9 h-9 rounded-full bg-amber-700/30 text-amber-500 flex items-center justify-center font-bold text-sm border border-amber-700/40">3°</div>
+                <div>
+                  <h4 class="font-bold text-white text-xs">Ana Gómez</h4>
+                  <p class="text-[11px] text-slate-400">Terminación · <strong class="text-emerald-400">115% meta</strong></p>
+                </div>
+              </div>
+            </div>
+
+            <!-- TABLA DE VELOCIDAD DE COSTURA -->
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs text-slate-300">
+                <thead class="bg-slate-950/80 uppercase font-bold text-slate-400 text-[10px] border-b border-slate-800">
+                  <tr>
+                    <th class="py-3 px-4">Operario</th>
+                    <th class="py-3 px-4">Puesto / Máquina</th>
+                    <th class="py-3 px-4 text-center">Prendas / Hora</th>
+                    <th class="py-3 px-4 text-center">Cumplimiento</th>
+                    <th class="py-3 px-4 text-center">Incentivo Producción</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-800">
+                  <tr class="hover:bg-slate-800/40 transition">
+                    <td class="py-2.5 px-4 font-bold text-white">María Romero</td>
+                    <td class="py-2.5 px-4 text-slate-300">Recta Jack A4 (Camisería)</td>
+                    <td class="py-2.5 px-4 text-center font-mono font-bold text-white">23.6 p/h</td>
+                    <td class="py-2.5 px-4 text-center"><span class="text-emerald-400 font-bold">109%</span></td>
+                    <td class="py-2.5 px-4 text-center"><span class="bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded text-[10px] font-bold">Habilitado</span></td>
+                  </tr>
+                  <tr class="hover:bg-slate-800/40 transition">
+                    <td class="py-2.5 px-4 font-bold text-white">Carlos Bazán</td>
+                    <td class="py-2.5 px-4 text-slate-300">Overlock Siruba (Pantalón)</td>
+                    <td class="py-2.5 px-4 text-center font-mono font-bold text-white">19.5 p/h</td>
+                    <td class="py-2.5 px-4 text-center"><span class="text-amber-400 font-bold">98%</span></td>
+                    <td class="py-2.5 px-4 text-center"><span class="bg-slate-800 text-slate-400 px-2 py-0.5 rounded text-[10px]">En estándar</span></td>
+                  </tr>
+                  <tr class="hover:bg-slate-800/40 transition">
+                    <td class="py-2.5 px-4 font-bold text-white">Soledad Vega</td>
+                    <td class="py-2.5 px-4 text-slate-300">Cortadora Eastman 8"</td>
+                    <td class="py-2.5 px-4 text-center font-mono font-bold text-white">51.6 p/h</td>
+                    <td class="py-2.5 px-4 text-center"><span class="text-emerald-400 font-bold">110%</span></td>
+                    <td class="py-2.5 px-4 text-center"><span class="bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded text-[10px] font-bold">Habilitado</span></td>
+                  </tr>
                 </tbody>
               </table>
             </div>
@@ -669,10 +745,7 @@
 
     // NAVEGACIÓN ENTRE SECCIONES (SOPORTA TODAS LAS VISTAS)
     function navigate(viewId) {
-      // Normalizar alias de submenú
-      if (viewId === 'rendimiento-operarios') viewId = 'personal';
-
-      const todasLasVistas = ['telemetria', 'lineas', 'personal', 'stock', 'compras', 'mantenimiento', 'reportes', 'auditoria'];
+      const todasLasVistas = ['telemetria', 'lineas', 'personal', 'rendimiento-operarios', 'stock', 'compras', 'mantenimiento', 'reportes', 'auditoria'];
       
       // Ocultar todas las vistas
       todasLasVistas.forEach(v => {
@@ -705,7 +778,8 @@
       const titulos = {
         'telemetria': { t: '<i data-lucide="gauge" class="w-5 h-5 text-red-500"></i> Telemetría de Planta & Indicadores Clave (KPIs)', d: 'Monitoreo en tiempo real de producción, disponibilidad de maquinaria y balance de masa.' },
         'lineas': { t: '<i data-lucide="layers" class="w-5 h-5 text-red-500"></i> Estado Operativo por Líneas de Confección', d: 'Balance de carga, velocidad de avance y artículos en proceso (WIP).' },
-        'personal': { t: '<i data-lucide="users" class="w-5 h-5 text-red-500"></i> Control de Personal & Rendimiento por Operario', d: 'Seguimiento de asistencia, asignación a líneas textiles y prendas confeccionadas por hora.' },
+        'personal': { t: '<i data-lucide="users" class="w-5 h-5 text-red-500"></i> Control de Personal & Asistencia Biométrica', d: 'Seguimiento de nómina en planta, horas de ingreso y operarios activos en turno.' },
+        'rendimiento-operarios': { t: '<i data-lucide="trending-up" class="w-5 h-5 text-red-500"></i> Rendimiento por Operario & Productividad Horaria', d: 'Métricas de unidades confeccionadas por hora, metas alcanzadas y top performance.' },
         'stock': { t: '<i data-lucide="boxes" class="w-5 h-5 text-red-500"></i> Gestión de Pañol Central & Abastecimiento', d: 'Inventario de telas, hilos y avíos con sistema de cálculo de punto de reorden.' },
         'compras': { t: '<i data-lucide="shopping-cart" class="w-5 h-5 text-red-500"></i> Circuito de Compras & Proveedores', d: 'Solicitudes automáticas de compra por desabastecimiento crítico.' },
         'mantenimiento': { t: '<i data-lucide="wrench" class="w-5 h-5 text-red-500"></i> Mantenimiento Preventivo & Parque de Máquinas', d: 'Alertas automáticas por horas de motor acumuladas para evitar paradas en línea.' },
